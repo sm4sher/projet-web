@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <h1> Projet 2 web : site de vente Espace client </h1>
+
+    <div class="row">
+        <div class="col-7">
+            les évènements + liens
+            <table class="table table-bordered">
+                <caption>Evènements</caption>
+                <thead>
+                <tr><th>nom</th><th>désignation</th><th>places restantes</th><th>type</th><th>prix</th><th>photo</th><th>Ajouter</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            les produits + liens
+        </div>
+        <div class="col-5">
+            le panier +liens
+            <table class="table table-bordered">
+                <caption>Panier</caption>
+                <thead>
+                <tr><th>Nom de l'évènement</th><th>nombre de place</th><th>prix</th><th>prix total</th><th></th><th>supprimer</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+{% endblock %}
