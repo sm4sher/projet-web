@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Evenement;
 use App\Entity\PanierPlace;
 use App\Form\PanierPlaceType;
 use App\Repository\PanierPlaceRepository;
@@ -28,13 +29,22 @@ class PanierPlaceController extends AbstractController
     /**
      * @Route("/new", name="panier_place_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Evenement $evenement = null): Response
     {
         $panierPlace = new PanierPlace();
+        if ($evenement != null) {
+            $panierPlace->setEvenement($evenement);
+        }
         $form = $this->createForm(PanierPlaceType::class, $panierPlace);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!$panierPlace->getId()) {
+                $panierPlace->setDateAchat(new \DateTime)
+                    ->setUser($this->getUser())
+                    ->setEvenement($this->getEvenement());
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($panierPlace);
             $entityManager->flush();
@@ -44,6 +54,7 @@ class PanierPlaceController extends AbstractController
 
         return $this->render('panier_place/new.html.twig', [
             'panier_place' => $panierPlace,
+            'evenement' => $evenement,
             'form' => $form->createView(),
         ]);
     }
@@ -83,7 +94,7 @@ class PanierPlaceController extends AbstractController
      */
     public function delete(Request $request, PanierPlace $panierPlace): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$panierPlace->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $panierPlace->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($panierPlace);
             $entityManager->flush();

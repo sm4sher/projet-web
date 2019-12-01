@@ -17,7 +17,11 @@
                 <th>Date</th>
                 <th>Prix</th>
                 <th>Détails</th>
-                <th>Edit</th>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if is_granted('ROLE_ADMIN') %} (role : Admin )
+                        <th>Edit</th>
+                    {% endif %}
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -32,11 +36,15 @@
                 <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
                 <td>{{ evenement.prix }}</td>
                 <td>
-                    <a href="{{ path('evenement_show', {'id': evenement.id}) }}"><button>show</button></a>
+                    <a href="{{ path('evenement_show', {'id': evenement.id}) }}"><button class="btn btn-secondary">Détails</button></a>
                 </td>
-                <td>
-                <a href="{{ path('evenement_edit', {'id': evenement.id}) }}"><button>edit</button></a>
-                </td>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if is_granted('ROLE_ADMIN') %} (role : Admin )
+                    <td>
+                        <a href="{{ path('evenement_edit', {'id': evenement.id}) }}"><button class="btn btn-secondary">Modifier</button></a>
+                    </td>
+                    {% endif %}
+                {% endif %}
             </tr>
         {% else %}
             <tr>
@@ -45,6 +53,9 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('evenement_new') }}">Create new</a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if is_granted('ROLE_ADMIN') %} (role : Admin )
+            <a href="{{ path('evenement_new') }}"><button class="btn btn-primary">Nouvel évenement</button></a>
+        {% endif %}
+    {% endif %}
 {% endblock %}

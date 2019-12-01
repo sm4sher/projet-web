@@ -13,7 +13,7 @@
                     Commandes
                 </a>
                 <div class="dropdown-menu" aria-labelledby="DropdownCommandes">
-                    <a class="dropdown-item" href="{{  path('panier_place_new') }}">Faire une commande(Evenements/panier)</a>
+                    <a class="dropdown-item" href="{{ path('panier_place_new') }}">Faire une commande(Evenements/panier)</a>
                 </div>
             </li>
 
@@ -23,6 +23,7 @@
                     Evenements
                 </a>
                 <div class="dropdown-menu" aria-labelledby="DropdownStage">
+                <a class="dropdown-item" href="{{ path('evenement_index') }}">Montrer les evenements</a>
                     <a class="dropdown-item" href="{#{ path('panier.filtre') }#}">Filtrer par catégorie de evenements</a>
                 </div>
             </li>
@@ -33,7 +34,7 @@
                     mon compte
                 </a>
                 <div class="dropdown-menu" aria-labelledby="DropdownComptes">
-                    <a class="dropdown-item" href="{{ path('panierPlace_index') }}">mes commandes</a>
+                    <a class="dropdown-item" href="{{ path('panier_place_index') }}">mes commandes</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{#path('user_registration_complete') }#}">mes coordonnées</a>
 
@@ -49,15 +50,15 @@
                     {% if is_granted('ROLE_ADMIN') %} (role : Admin )
                     {% elseif is_granted('ROLE_CLIENT') %} (role : Client ) {% endif %}
             </span>
-                <a class="btn btn-outline-success" type="button" href="{{path('logout') }}">
+                <a class="btn btn-warning" type="button" href="{{path('logout') }}">
                     Se déconnecter
                 </a>
 
             {% else %}
-                <a class="btn btn-outline-success" type="button" href="{{path('login') }}">
+                <a class="btn btn-success" type="button" href="{{path('login') }}">
                     Se connecter
                 </a>
-                <a class="btn btn-outline-success" type="button" href="{#{path('changePassword') }#}">
+                <a class="btn btn-success" type="button" href="{#{path('changePassword') }#}">
                     mot de passe oublié
                 </a>
             {% endif %}

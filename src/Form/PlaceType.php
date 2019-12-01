@@ -2,38 +2,27 @@
 
 namespace App\Form;
 
-use App\Entity\PanierPlace;
+use App\Entity\Place;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PanierPlaceType extends AbstractType
+class PlaceType extends AbstractType
 {
-    /*
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dateAchat')
+            ->add('prix')
             ->add('quantite')
-            ->add('user')
+            ->add('commande')
             ->add('evenement')
         ;
     }
-    */
-
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
-            ->add('quantite')
-            ->add('evenement');
-    }
-
-
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => PanierPlace::class,
+            'data_class' => Place::class,
         ]);
     }
 }

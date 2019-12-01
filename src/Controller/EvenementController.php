@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Evenement;
+use App\Form\CommandeType;
 use App\Form\Evenement1Type;
 use App\Repository\EvenementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -83,12 +84,23 @@ class EvenementController extends AbstractController
      */
     public function delete(Request $request, Evenement $evenement): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$evenement->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $evenement->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($evenement);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('evenement_index');
+    }
+
+    /**
+     * @Route("/{id}", name="evenement_achat_place", methods={"GET"})
+     */
+    public function achatPlace(Request $request, Evenement $evenement)
+    {
+        return $this->redirectToRoute('panier_place_new', [
+            'request' => $request,
+            'evenement' => $evenement
+        ]);
     }
 }
