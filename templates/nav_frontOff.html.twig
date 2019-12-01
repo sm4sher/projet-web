@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">TP web <span style="color:#26ff1e;">  Menu Client </span></a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">TP web <span style="color:#26ff1e;">  Menu Client </span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -7,15 +7,17 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
 
+            <!--Commandes de l'utilisateur-->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="DropdownCommandes" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Commandes
                 </a>
                 <div class="dropdown-menu" aria-labelledby="DropdownCommandes">
-                    <a class="dropdown-item" href="{#{  path('panier.show') }#}">Faire une commande(Evenements/panier)</a>
+                    <a class="dropdown-item" href="{{  path('panier_place_new') }}">Faire une commande(Evenements/panier)</a>
                 </div>
             </li>
 
+            <!--Affichage des évenements de l'utilisateur-->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="DropdownClient" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Evenements
@@ -25,13 +27,13 @@
                 </div>
             </li>
 
-
+            <!--Détails du compte : commandes et coordonnées-->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="DropdownComptes" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     mon compte
                 </a>
                 <div class="dropdown-menu" aria-labelledby="DropdownComptes">
-                    <a class="dropdown-item" href="{#{ path('commande.showAllCommandes') }#}">mes commandes</a>
+                    <a class="dropdown-item" href="{{ path('panierPlace_index') }}">mes commandes</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{#path('user_registration_complete') }#}">mes coordonnées</a>
 

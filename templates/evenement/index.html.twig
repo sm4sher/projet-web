@@ -16,7 +16,8 @@
                 <th>NombrePlaces</th>
                 <th>Date</th>
                 <th>Prix</th>
-                <th>actions</th>
+                <th>Détails</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
@@ -31,8 +32,10 @@
                 <td>{{ evenement.date ? evenement.date|date('Y-m-d') : '' }}</td>
                 <td>{{ evenement.prix }}</td>
                 <td>
-                    <a href="{{ path('evenement_show', {'id': evenement.id}) }}">show</a>
-                    <a href="{{ path('evenement_edit', {'id': evenement.id}) }}">edit</a>
+                    <a href="{{ path('evenement_show', {'id': evenement.id}) }}"><button>show</button></a>
+                </td>
+                <td>
+                <a href="{{ path('evenement_edit', {'id': evenement.id}) }}"><button>edit</button></a>
                 </td>
             </tr>
         {% else %}
