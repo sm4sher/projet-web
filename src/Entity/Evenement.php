@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -55,6 +57,22 @@ class Evenement
      * @ORM\Column(type="decimal", precision=8, scale=2, nullable=true)
      */
     private $prix;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Place", mappedBy="evenement")
+     */
+    private $places;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PanierPlace", mappedBy="evenement")
+     */
+    private $panierPlaces;
+
+    public function __construct()
+    {
+        $this->places = new ArrayCollection();
+        $this->panierPlaces = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -158,6 +176,68 @@ class Evenement
     public function setPrix(?string $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Place[]
+     */
+    public function getPlaces(): Collection
+    {
+        return $this->places;
+    }
+
+    public function addPlace(Place $place): self
+    {
+        if (!$this->places->contains($place)) {
+            $this->places[] = $place;
+            $place->setEvenement($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlace(Place $place): self
+    {
+        if ($this->places->contains($place)) {
+            $this->places->removeElement($place);
+            // set the owning side to null (unless already changed)
+            if ($place->getEvenement() === $this) {
+                $place->setEvenement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PanierPlace[]
+     */
+    public function getPanierPlaces(): Collection
+    {
+        return $this->panierPlaces;
+    }
+
+    public function addPanierPlace(PanierPlace $panierPlace): self
+    {
+        if (!$this->panierPlaces->contains($panierPlace)) {
+            $this->panierPlaces[] = $panierPlace;
+            $panierPlace->setEvenement($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanierPlace(PanierPlace $panierPlace): self
+    {
+        if ($this->panierPlaces->contains($panierPlace)) {
+            $this->panierPlaces->removeElement($panierPlace);
+            // set the owning side to null (unless already changed)
+            if ($panierPlace->getEvenement() === $this) {
+                $panierPlace->setEvenement(null);
+            }
+        }
 
         return $this;
     }

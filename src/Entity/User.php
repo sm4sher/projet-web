@@ -2,6 +2,8 @@
 // src/Entity/User.php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -76,11 +78,23 @@ class User implements UserInterface, \Serializable
      */
     private $tokenMail = '';
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PanierPlace", mappedBy="user")
+     */
+    private $panierPlaces;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commande", mappedBy="user")
+     */
+    private $commandes;
+
     // /////////////////
 
     public function __construct()
     {
         $this->isActive = true;
+        $this->panierPlaces = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
     }
@@ -253,5 +267,67 @@ class User implements UserInterface, \Serializable
     public function __toString()
     {
         return "username : ".$this->getUsername()." role: ".$this->getRoles()[0]." mdp:".$this->getPassword()."\n";
+    }
+
+    /**
+     * @return Collection|PanierPlace[]
+     */
+    public function getPanierPlaces(): Collection
+    {
+        return $this->panierPlaces;
+    }
+
+    public function addPanierPlace(PanierPlace $panierPlace): self
+    {
+        if (!$this->panierPlaces->contains($panierPlace)) {
+            $this->panierPlaces[] = $panierPlace;
+            $panierPlace->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanierPlace(PanierPlace $panierPlace): self
+    {
+        if ($this->panierPlaces->contains($panierPlace)) {
+            $this->panierPlaces->removeElement($panierPlace);
+            // set the owning side to null (unless already changed)
+            if ($panierPlace->getUser() === $this) {
+                $panierPlace->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commandes->contains($commande)) {
+            $this->commandes->removeElement($commande);
+            // set the owning side to null (unless already changed)
+            if ($commande->getUser() === $this) {
+                $commande->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
