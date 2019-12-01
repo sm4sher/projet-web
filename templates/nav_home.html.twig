@@ -1,18 +1,31 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">TP web <span style="color:#ff0000;">  Menu accueil(etu) </span></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="/">TP web 
+        <span style="color:#ff0000;">  Menu accueil(etu) </span>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
-
+            
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="DropdownCommandes" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Evenements
                 </a>
                 <div class="dropdown-menu" aria-labelledby="DropdownCommandes">
-                    <a class="dropdown-item" href="{{ path('evenement_show') }}">Afficher les evenements</a>
+                    <a class="dropdown-item" href="{{ path('evenement_index') }}">Afficher les evenements</a>
+                    <a class="dropdown-item" href="{{ path('evenement_new') }}">créer un évenement</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="DropdownCommandes" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Categories
+                </a>
+                <div class="dropdown-menu" aria-labelledby="DropdownCommandes">
+                    <a class="dropdown-item" href="{{ path('categorie_index') }}">Afficher les categories</a>
+                    <a class="dropdown-item" href="{{ path('categorie_new') }}">creer une categorie</a>
                 </div>
             </li>
         </ul>
@@ -26,19 +39,19 @@
                     {% if is_granted('ROLE_ADMIN') %} (role : Admin )
                     {% elseif is_granted('ROLE_CLIENT') %} (role : Client ) {% endif %}
             </span>
-                <a class="btn btn-outline-success" type="button" href="{{path('logout') }}">
+                <a class="btn btn-success" type="button" href="{{path('logout') }}">
                     Se déconnecter
                 </a>
 
             {% else %}
-                <a class="btn btn-outline-success" type="button" href="{{path('login') }}">
+                <a class="btn btn-success" type="button" href="{{path('login') }}">
                     Se connecter
                 </a>
-                <a class="btn btn-outline-success" type="button" href="{# path('user_registration') #}">
+                <a class="btn btn-success" type="button" href="{# path('user_registration') #}">
                     s'inscrire
                 </a>
 
-                <a class="btn btn-outline-success" type="button" href="{#{path('changePassword') }#}">
+                <a class="btn btn-success" type="button" href="{#{path('changePassword') }#}">
                     mot de passe oublié
                 </a>
             {% endif %}
