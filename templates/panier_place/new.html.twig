@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New PanierPlace{% endblock %}
+
+{% block body %}
+    <h1>Commande d'un évenement</h1>
+
+    {{ include('panier_place/_form.html.twig') }}
+
+    <a href="{{ path('panier_place_index') }}"><button class="btn btn-primary">retour en arrière</button></a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{{ form_start(form) }}
+
+{% if form.evenement == null %}
+{{ form_row(form.evenement, {'attr': {'placeholder': 'évenement'}})}}
+{% endif %}
+
+{{ form_row(form.quantite, {'attr': {'placeholder': "Quantité"}}) }}
+
+<button class="btn btn-success">{{ button_label|default('Save') }}</button>
+
+{{ form_end(form) }}

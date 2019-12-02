@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit PanierPlace{% endblock %}
+
+{% block body %}
+    <h1>Editer ses commandes</h1>
+
+    {{ include('panier_place/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('panier_place_index') }}"><button class="btn btn-primary">retour en arrière</button></a>
+
+    {{ include('panier_place/_delete_form.html.twig') }}
+{% endblock %}
