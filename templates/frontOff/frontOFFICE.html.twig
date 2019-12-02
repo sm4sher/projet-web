@@ -10,10 +10,28 @@
             <table class="table table-bordered">
                 <caption>Evènements</caption>
                 <thead>
-                <tr><th>nom</th><th>désignation</th><th>places restantes</th><th>type</th><th>prix</th><th>photo</th><th>Ajouter</th>
-                </tr>
+                    <tr>
+                        <th>nom</th>
+                        <th>description</th>
+                        <th>places restantes</th>
+                        <th>type</th>
+                        <th>prix</th>
+                        <th>photo</th>
+                        <th>Ajouter</th>
+                    </tr>
                 </thead>
                 <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td>{{ event.nom }}</td>
+                            <td>{{ event.description }}</td>
+                            <td> ?/{{ event.nombrePlaces }}</td>
+                            <td>{{ event.categorie.libelle }}</td>
+                            <td>{{ event.prix }}</td>
+                            <td>{{ event.photo }}</td>
+                            <td><a href="#">Ajouter au panier</a></td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
             les produits + liens
