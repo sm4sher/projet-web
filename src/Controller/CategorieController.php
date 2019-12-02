@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Categorie;
 use App\Form\CategorieType;
 use App\Repository\CategorieRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
