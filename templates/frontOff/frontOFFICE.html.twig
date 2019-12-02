@@ -6,7 +6,7 @@
 
     <div class="row">
         <div class="col-7">
-            les évènements + liens
+            les évènements
             <table class="table table-bordered">
                 <caption>Evènements</caption>
                 <thead>
@@ -29,13 +29,17 @@
                             <td>{{ event.categorie.libelle }}</td>
                             <td>{{ event.prix }}</td>
                             <td>{{ event.photo }}</td>
-                            <td><a href="#">Ajouter au panier</a></td>
+                            <td><a href="{{ path('panier_place_new') }}">
+                                <button class="btn btn-primary">Ajouter au panier</button>
+                                </a>
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
             les produits + liens
         </div>
+        <!--
         <div class="col-5">
             le panier +liens
             <table class="table table-bordered">
@@ -48,7 +52,7 @@
                 </tbody>
             </table>
         </div>
-
+        -->
     </div>
 
 {% endblock %}

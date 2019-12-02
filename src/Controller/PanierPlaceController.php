@@ -6,6 +6,8 @@ use App\Entity\Evenement;
 use App\Entity\PanierPlace;
 use App\Form\PanierPlaceType;
 use App\Repository\PanierPlaceRepository;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,8 +43,7 @@ class PanierPlaceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$panierPlace->getId()) {
                 $panierPlace->setDateAchat(new \DateTime)
-                    ->setUser($this->getUser())
-                    ->setEvenement($this->getEvenement());
+                    ->setUser($this->getUser());
             }
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -52,6 +53,32 @@ class PanierPlaceController extends AbstractController
             return $this->redirectToRoute('panier_place_index');
         }
 
+        return $this->render('panier_place/new.html.twig', [
+            'panier_place' => $panierPlace,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/add", name="panier_place_add", methods={"GET", "POST"})
+     */
+    public function add(Request $request, Evenement $evenement, ObjectManager $manager)
+    {
+        $panierPlace = new PanierPlace();
+        $form = $this->createForm(PanierPlaceType::class, $panierPlace);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if (!$panierPlace->getId()) {
+                $panierPlace->setDateAchat(new \DateTime)
+                    ->setUser($this->getUser())
+                    ->setEvenement($this->getEvenement());
+            }
+            $manager->persist($panierPlace);
+            $manager->flush();
+
+            return $this->redirectToRoute('panier_place_index');
+        }
         return $this->render('panier_place/new.html.twig', [
             'panier_place' => $panierPlace,
             'evenement' => $evenement,

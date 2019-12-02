@@ -3,6 +3,7 @@
 {% if form.evenement == null %}
 {{ form_row(form.evenement, {'attr': {'placeholder': 'évenement'}})}}
 {% endif %}
+<td>{{ form.evenement->getNom() }}</td>
 
 {{ form_row(form.quantite, {'attr': {'placeholder': "Quantité"}}) }}
 
