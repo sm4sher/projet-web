@@ -24,7 +24,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="DropdownStage">
                 <a class="dropdown-item" href="{{ path('evenement_index') }}">Montrer les evenements</a>
-                    <a class="dropdown-item" href="{#{ path('panier.filtre') }#}">Filtrer par catégorie de evenements</a>
+                <a class="dropdown-item" href="{#{ path('panier.filtre') }#}">Filtrer par catégorie de evenements</a>
                 </div>
             </li>
 
@@ -48,8 +48,9 @@
                 <span class="navbar-text">
                     Bonjour {{ app.user.username }}
                     {% if is_granted('ROLE_ADMIN') %} (role : Admin )
-                    {% elseif is_granted('ROLE_CLIENT') %} (role : Client ) {% endif %}
-            </span>
+                    {% elseif is_granted('ROLE_CLIENT') %} (role : Client ) 
+                    {% endif %}
+                </span>
                 <a class="btn btn-warning" type="button" href="{{path('logout') }}">
                     Se déconnecter
                 </a>
@@ -62,7 +63,6 @@
                     mot de passe oublié
                 </a>
             {% endif %}
-
         </ul>
     </div>
 </nav>
