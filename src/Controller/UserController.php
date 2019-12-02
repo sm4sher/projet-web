@@ -9,14 +9,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security as SecurityAnnotation;
 
 /**
  * @Route("/user")
+ *
  */
 class UserController extends AbstractController
 {
     /**
      * @Route("/", name="user_index", methods={"GET"})
+     * @SecurityAnnotation("has_role('ROLE_ADMIN')")
      */
     public function index(UserRepository $userRepository): Response
     {
@@ -51,8 +55,11 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_show", methods={"GET"})
      */
-    public function show(User $user): Response
+    public function show(User $user, Security $security, $id): Response
     {
+        if($security->getUser()->getId() != $id){
+            return $this->redirectToRoute("index.index");
+        }
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
