@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security as SecurityAnnotat
  * @Route("/user")
  *
  */
-class UserController extends AbstractController
+class UserAdminController extends AbstractController
 {
     /**
      * @Route("/", name="user_index", methods={"GET"})
@@ -57,9 +57,6 @@ class UserController extends AbstractController
      */
     public function show(User $user, Security $security, $id): Response
     {
-        if($security->getUser()->getId() != $id){
-            return $this->redirectToRoute("index.index");
-        }
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);

@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/admin/events")
  * @Security("has_role('ROLE_ADMIN')")
  */
-class EvenementController extends AbstractController
+class EvenementAdminController extends AbstractController
 {
     /**
      * @Route("/", name="evenement_index", methods={"GET"})

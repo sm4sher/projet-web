@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @Route("/admin/categories")
  * @Security("has_role('ROLE_ADMIN')")
  */
-class CategorieController extends AbstractController
+class CategorieAdminController extends AbstractController
 {
     /**
      * @Route("/", name="categorie_index", methods={"GET"})
