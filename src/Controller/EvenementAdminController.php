@@ -23,7 +23,7 @@ class EvenementAdminController extends AbstractController
      */
     public function index(EvenementRepository $evenementRepository): Response
     {
-        return $this->render('evenement/index.html.twig', [
+        return $this->render('admin/evenement/index.html.twig', [
             'evenements' => $evenementRepository->findAll(),
         ]);
     }
@@ -45,7 +45,7 @@ class EvenementAdminController extends AbstractController
             return $this->redirectToRoute('evenement_index');
         }
 
-        return $this->render('evenement/new.html.twig', [
+        return $this->render('admin/evenement/new.html.twig', [
             'evenement' => $evenement,
             'form' => $form->createView(),
         ]);
@@ -56,7 +56,7 @@ class EvenementAdminController extends AbstractController
      */
     public function show(Evenement $evenement): Response
     {
-        return $this->render('evenement/show.html.twig', [
+        return $this->render('admin/evenement/show.html.twig', [
             'evenement' => $evenement,
         ]);
     }
@@ -75,7 +75,7 @@ class EvenementAdminController extends AbstractController
             return $this->redirectToRoute('evenement_index');
         }
 
-        return $this->render('evenement/edit.html.twig', [
+        return $this->render('admin/evenement/edit.html.twig', [
             'evenement' => $evenement,
             'form' => $form->createView(),
         ]);

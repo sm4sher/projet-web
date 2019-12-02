@@ -20,7 +20,7 @@ class IndexController extends Controller
     {
         if($this->isGranted('ROLE_ADMIN')) {
             //return $this->redirectToRoute('admin.index');
-            return new Response($twig->render('backOff/backOFFICE.html.twig'));
+            return new Response($twig->render('admin/backOFFICE.html.twig'));
         }
         if($this->isGranted('ROLE_CLIENT')) {
             return $this->redirectToRoute("front_office");

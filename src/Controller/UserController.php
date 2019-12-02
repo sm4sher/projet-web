@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security as SecurityAnnotat
  * @Route("/user")
  *
  */
-class UserAdminController extends AbstractController
+class UserController extends AbstractController
 {
     /**
      * @Route("/", name="user_index", methods={"GET"})
