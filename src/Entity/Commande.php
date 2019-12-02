@@ -114,4 +114,13 @@ class Commande
 
         return $this;
     }
+
+    public function getMontantTotal(): ?string
+    {
+        $total = 0;
+        foreach($this->ligneCommandes as $ligne){
+            $total += $ligne->getPrix() * $ligne->getQuantite();
+        }
+        return $total;
+    }
 }

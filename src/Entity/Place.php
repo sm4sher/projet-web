@@ -36,6 +36,15 @@ class Place
      */
     private $evenement;
 
+    public function copyPanierPlace(?PanierPlace $place): self
+    {
+        $this->prix = $place->getEvenement()->getPrix();
+        $this->quantite = $place->getQuantite();
+        $this->evenement = $place->getEvenement();
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

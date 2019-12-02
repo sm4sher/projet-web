@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("/panier/place")
+ * @Route("/panier")
  */
 class PanierPlaceController extends AbstractController
 {
@@ -25,8 +25,10 @@ class PanierPlaceController extends AbstractController
      */
     public function index(Security $security,PanierPlaceRepository $panierPlaceRepository): Response
     {
+        $panier = $panierPlaceRepository->findBy(['user' => $security->getUser()]);
+
         return $this->render('panier_place/index.html.twig', [
-            'panier' => $panierPlaceRepository->findBy(['user' => $security->getUser()])
+            'panier' => $panier
         ]);
     }
 
@@ -63,7 +65,7 @@ class PanierPlaceController extends AbstractController
     }*/
 
     /**
-     * @Route("/{id}/add", name="panier_place_add", methods={"GET", "POST"})
+     * @Route("/add/{id}", name="panier_place_add", methods={"GET", "POST"})
      */
     public function add(Request $request, Evenement $evenement, ObjectManager $manager, Security $security, $id)
     {
@@ -99,7 +101,7 @@ class PanierPlaceController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="panier_place_edit", methods={"POST"})
+     * @Route("/edit/{id}", name="panier_place_edit", methods={"POST"})
      */
     public function edit(Request $request, Security $security, ObjectManager $manager, $id): Response
     {
@@ -116,7 +118,7 @@ class PanierPlaceController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/delete", name="panier_place_delete", methods={"GET"})
+     * @Route("/delete/{id}", name="panier_place_delete", methods={"GET"})
      */
     public function delete(Request $request, Security $security, ObjectManager $manager, $id): Response
     {
@@ -126,7 +128,7 @@ class PanierPlaceController extends AbstractController
             $manager->remove($panierPlace);
             $manager->flush();
         }
-        
+
         $session = new Session();
         $session->getFlashBag()->add("display_panier", "");
         return $this->redirectToRoute('front_office');

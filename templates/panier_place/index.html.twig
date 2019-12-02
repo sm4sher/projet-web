@@ -6,5 +6,7 @@
     <h1>Panier</h1>
 
     {{ include("panier_place/tableau_panier.html.twig") }}
-    <a class="button" type="btn btn-primary" href="#"><button class="btn btn-success">Ajouter</button></a>
+    <form action="{{ path("commande_new") }}" method="post">
+        <input type="submit" class="btn btn-success" value="Valider la commande">
+    </form>
 {% endblock %}
