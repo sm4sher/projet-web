@@ -8,6 +8,7 @@ use App\Form\PanierPlaceType;
 use App\Repository\PanierPlaceRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +23,10 @@ class PanierPlaceController extends AbstractController
     /**
      * @Route("/", name="panier_place_index", methods={"GET"})
      */
-    public function index(PanierPlaceRepository $panierPlaceRepository): Response
+    public function index(Security $security,PanierPlaceRepository $panierPlaceRepository): Response
     {
         return $this->render('panier_place/index.html.twig', [
-            'panier_places' => $panierPlaceRepository->findAll(),
+            'panier' => $panierPlaceRepository->findBy(['user' => $security->getUser()])
         ]);
     }
 
@@ -80,6 +81,8 @@ class PanierPlaceController extends AbstractController
         $manager->persist($panierPlace);
         $manager->flush();
 
+        $session = new Session();
+        $session->getFlashBag()->add("display_panier", "");
         return $this->redirectToRoute('front_office');
 
 //        $form = $this->createForm(PanierPlaceType::class, $panierPlace);
@@ -125,6 +128,8 @@ class PanierPlaceController extends AbstractController
             $manager->persist($panierPlace);
             $manager->flush();
         }
+        $session = new Session();
+        $session->getFlashBag()->add("display_panier", "");
         return $this->redirectToRoute("front_office");
 
         /*$form = $this->createForm(PanierPlaceType::class, $panierPlace);
@@ -153,7 +158,9 @@ class PanierPlaceController extends AbstractController
             $manager->remove($panierPlace);
             $manager->flush();
         }
-        return $this->redirectToRoute("front_office");
+        $session = new Session();
+        $session->getFlashBag()->add("display_panier", "");
+        return $this->redirectToRoute('front_office');
 
         /*if ($this->isCsrfTokenValid('delete' . $panierPlace->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

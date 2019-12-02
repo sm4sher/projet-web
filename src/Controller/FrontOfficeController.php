@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\Security;
 class FrontOfficeController extends AbstractController
 {
     /**
-     * @Route("/front/office", name="front_office")
+     * @Route("/evenements", name="front_office")
      */
     public function index(Request $request, Security $security, EvenementRepository $evenementRepository, PanierPlaceRepository $panierPlaceRepository)
     {

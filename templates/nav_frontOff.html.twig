@@ -37,31 +37,59 @@
                     <a class="dropdown-item" href="{{ path('panier_place_index') }}">mes commandes</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{ path('user_show', {'id': app.user.id }) }}">mes coordonnées</a>
-
                 </div>
             </li>
         </ul>
 
+        {% if app.session.flashbag.get('display_panier') is not empty %}
+            <script>
+                window.addEventListener("DOMContentLoaded", function(){
+                    $('.dropdown-toggle').dropdown('toggle');
+                });
+            </script>
+        {% endif %}
         <ul class="nav navbar-nav navbar-right">
-            <!-- Authentication Links -->
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <span class="navbar-text">
-                    Bonjour {{ app.user.username }}
-                    {% if is_granted('ROLE_ADMIN') %} (role : Admin )
-                    {% elseif is_granted('ROLE_CLIENT') %} (role : Client ) {% endif %}
-            </span>
-                <a class="btn btn-warning" type="button" href="{{path('logout') }}">
-                    Se déconnecter
-                </a>
+            <li class="nav-item dropdown">
+                <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Panier
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    {% if panier is not defined or panier is empty %}
+                        <p class="dropdown-header">Panier vide</p>
+                    {% else %}
+                        {{ include("panier_place/tableau_panier.html.twig") }}
+                        <a href="{{ path("panier_place_index") }}">Voir le panier</a>
+                    {% endif %}
+                </div>
+            </li>
+                <!-- Authentication Links -->
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="nav-item">
+                        <span class="navbar-text">
+                            Bonjour {{ app.user.username }}
+                            {% if is_granted('ROLE_ADMIN') %} (role : Admin )
+                            {% elseif is_granted('ROLE_CLIENT') %} (role : Client ) {% endif %}
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-warning" type="button" href="{{path('logout') }}">
+                            Se déconnecter
+                        </a>
+                    </li>
 
-            {% else %}
-                <a class="btn btn-success" type="button" href="{{path('login') }}">
-                    Se connecter
-                </a>
-                <a class="btn btn-success" type="button" href="{#{path('changePassword') }#}">
-                    mot de passe oublié
-                </a>
-            {% endif %}
+                {% else %}
+                    <li class="nav-item">
+                        <a class="btn btn-success" type="button" href="{{path('login') }}">
+                            Se connecter
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-success" type="button" href="{#{path('changePassword') }#}">
+                            mot de passe oublié
+                        </a>
+                    </li>
+                {% endif %}
+            </div>
 
         </ul>
     </div>
