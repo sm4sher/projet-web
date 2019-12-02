@@ -29,7 +29,7 @@
                             <td>{{ event.categorie.libelle }}</td>
                             <td>{{ event.prix }}</td>
                             <td>{{ event.photo }}</td>
-                            <td><a href="{{ path('panier_place_add', {id: event.id}) }}">
+                            <td><a href="{{ path('panier.add', {id: event.id}) }}">
                                 <button class="btn btn-primary">Ajouter au panier</button>
                                 </a>
                             </td>

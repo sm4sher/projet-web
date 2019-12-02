@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/categorie")
+ * @Route("/admin/categories")
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class CategorieController extends AbstractController
 {

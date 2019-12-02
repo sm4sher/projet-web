@@ -58,7 +58,7 @@
                         <p class="dropdown-header">Panier vide</p>
                     {% else %}
                         {{ include("panier_place/tableau_panier.html.twig") }}
-                        <a href="{{ path("panier_place_index") }}">
+                        <a href="{{ path("panier.index") }}">
                             <button class="btn btn-primary">Voir le panier</button>
                         </a>
                         <form action="{{ path("commande_new") }}" method="post">

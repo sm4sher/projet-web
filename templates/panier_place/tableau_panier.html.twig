@@ -15,7 +15,7 @@
         <tr>
             <td>{{ ligne.evenement.nom }}</td>
             <td>
-                <form action="{{ path('panier_place_edit', {id: ligne.evenement.id}) }}" method="POST">
+                <form action="{{ path('panier.edit', {id: ligne.evenement.id}) }}" method="POST">
                     <input type="text" name="quantite" value="{{ ligne.quantite }}" class="form-control">
                     <input type="submit" value="Modifier" class="btn btn-primary">
                 </form>
@@ -23,7 +23,7 @@
             <td>{{ ligne.evenement.prix }}</td>
             <td>{{ ligne.quantite * ligne.evenement.prix }}</td>
             <td>
-                <a href="{{ path('panier_place_delete', {id: ligne.evenement.id}) }}"><button class="btn btn-danger">Supprimer</button></a>
+                <a href="{{ path('panier.delete', {id: ligne.evenement.id}) }}"><button class="btn btn-danger">Supprimer</button></a>
             </td>
         </tr>
     {% endfor %}

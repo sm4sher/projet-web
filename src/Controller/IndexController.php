@@ -28,21 +28,4 @@ class IndexController extends Controller
         return new Response($twig->render('accueil.html.twig'));
 
     }
-
-    /**
-     * @Route("/client", name="index.client")
-     */
-    public function indexClient(Request $request, Environment $twig)
-    {
-        if($this->isGranted('ROLE_ADMIN')) {
-            //return $this->redirectToRoute('admin.index');
-            return new Response($twig->render('backOff/backOFFICE.html.twig'));
-        }
-        if($this->isGranted('ROLE_CLIENT')) {
-            // return $this->redirectToRoute('client.index');
-            return new Response($twig->render('frontOff/frontOFFICE.html.twig'));
-        }
-        return new Response($twig->render('accueil.html.twig'));
-
-    }
 }

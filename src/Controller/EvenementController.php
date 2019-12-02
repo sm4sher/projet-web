@@ -6,6 +6,7 @@ use App\Entity\Evenement;
 use App\Form\CommandeType;
 use App\Form\Evenement1Type;
 use App\Repository\EvenementRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/admin/events")
+ * @Security("has_role('ROLE_ADMIN')")
  */
 class EvenementController extends AbstractController
 {
@@ -60,7 +62,7 @@ class EvenementController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="evenement_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="evenement_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Evenement $evenement): Response
     {
@@ -91,16 +93,5 @@ class EvenementController extends AbstractController
         }
 
         return $this->redirectToRoute('evenement_index');
-    }
-
-    /**
-     * @Route("/{id}", name="evenement_achat_place", methods={"GET"})
-     */
-    public function achatPlace(Request $request, Evenement $evenement)
-    {
-        return $this->redirectToRoute('panier_place_new', [
-            'request' => $request,
-            'evenement' => $evenement
-        ]);
     }
 }
