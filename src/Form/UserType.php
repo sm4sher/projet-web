@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
+    /*
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -23,6 +24,18 @@ class UserType extends AbstractType
             ->add('adresse')
             ->add('tokenMail')
         ;
+    }
+    */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('username')
+            //->add('password')
+            ->add('email')
+            ->add('nom')
+            ->add('ville')
+            ->add('codePostal')
+            ->add('adresse');
     }
 
     public function configureOptions(OptionsResolver $resolver)

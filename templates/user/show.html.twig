@@ -7,10 +7,14 @@
 
     <table class="table">
         <tbody>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('ROLE_ADMIN') %} (role : Admin )
             <tr>
                 <th>Id</th>
                 <td>{{ user.id }}</td>
             </tr>
+            {% endif %}
+        {% endif %}
             <tr>
                 <th>Username</th>
                 <td>{{ user.username }}</td>
@@ -38,9 +42,13 @@
         </tbody>
     </table>
 
-        <a href="{{ path('user_index') }}"><button type="button" class="btn btn-primary">back to list</button></a>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if is_granted('ROLE_ADMIN') %} (role : Admin )
+        <a href="{{ path('user_index') }}"><button type="button" class="btn btn-primary">Retour a la liste</button></a>
+        {% endif %}
+    {% endif %}
 
-        <a href="{{ path('user_edit', {'id': user.id}) }}"><button type="button" class="btn btn-primary">edit</button></a>
+        <a href="{{ path('user_edit', {'id': user.id}) }}"><button type="button" class="btn btn-primary">Modifier</button></a>
 
     {{ include('user/_delete_form.html.twig') }}
 {% endblock %}
