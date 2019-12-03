@@ -82,16 +82,34 @@ class PanierPlaceController extends AbstractController
         $manager->persist($panierPlace);
         $manager->flush();
 
-        return $this->redirectToRoute('front_office');
+        return $this->redirectToRoute('panier_place_show', [
+            'id' => $id
+        ]);
     }
 
     /**
      * @Route("/{id}", name="panier_place_show", methods={"GET"})
      */
-    public function show(PanierPlace $panierPlace): Response
+    public function show(ObjectManager $manager, Security $security, int $id): Response
     {
-        return $this->render('panier_place/show.html.twig', [
-            'panier_place' => $panierPlace,
+        $evenement = $this->getDoctrine()->getRepository(Evenement::class)->findOneBy(['id' => $id]);
+        $panierPlace = $this->getDoctrine()->getRepository(PanierPlace::class)->findOneBy(
+            ['user' => $security->getUser(), 'evenement' => $evenement]
+        );
+        if (!$panierPlace) {
+            $panierPlace = new PanierPlace();
+            $panierPlace->setEvenement($evenement);
+            $panierPlace->setUser($security->getUser());
+            $panierPlace->setQuantite(1);
+            $panierPlace->setDateAchat(new \DateTime());
+        }
+
+        $manager->persist($panierPlace);
+        $manager->flush();
+
+        return $this->render('evenement/add_event.html.twig', [
+            'ligne' => $panierPlace,
+            'evenement' => $evenement,
         ]);
     }
 
@@ -106,8 +124,19 @@ class PanierPlaceController extends AbstractController
             $panierPlace->setQuantite($request->get("quantite"));
             $manager->persist($panierPlace);
             $manager->flush();
+        } else {
+            $panierPlace = new PanierPlace();
+            $panierPlace->setEvenement($evenement);
+            $panierPlace->setUser($security->getUser());
+            $panierPlace->setQuantite(1);
+            $panierPlace->setDateAchat(new \DateTime());
+
+            $manager->persist($panierPlace);
+            $manager->flush();
         }
-        return $this->redirectToRoute("front_office");
+        return $this->redirectToRoute('panier_place_show', [
+            'id' => $id
+        ]);
     }
 
     /**

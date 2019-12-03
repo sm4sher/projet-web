@@ -35,6 +35,29 @@
                 <th>Prix</th>
                 <td>{{ evenement.prix }}</td>
             </tr>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if is_granted('ROLE_CLIENT') %} (role : client )
+            <tr>
+                <th>quantite</th>
+                <td>
+                    <form action="{{ path('panier_place_edit', {id: ligne.evenement.id}) }}" method="POST">
+                        <input type="text" name="quantite" value="{{ ligne.quantite }}" class="form-control">
+                        <input type="submit" value="Modifier" class="btn btn-primary">
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <th>Prix total</th>
+                <td>{{ ligne.quantite * ligne.evenement.prix }}</td>
+            </tr>
+            <tr>
+                <th>Supprimer</th>
+                <td><a href="{{ path('panier_place_delete', {id: ligne.evenement.id}) }}">
+                    <button class="btn btn-danger">Supprimer</button></a>
+                </td>
+            </tr>
+                {% endif %}
+            {% endif %}
         </tbody>
     </table>
 
@@ -45,8 +68,8 @@
             </a>
             {{ include('evenement/_delete_form.html.twig') }}
         {% elseif is_granted('ROLE_CLIENT') %} (role : client )
-            <a href="{{ path('panier_place_show', {id: evenement.id}) }}">
-                <button class="btn btn-primary">Achat</button>
+            <a href="{{ path('panier_place_add', {'id': evenement.id}) }}">
+                <button class="btn btn-success">Valider</button>
             </a>
         {% endif %}
     {% endif %}
