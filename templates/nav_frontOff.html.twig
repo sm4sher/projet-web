@@ -52,6 +52,9 @@
             <li class="nav-item dropdown">
                 <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Panier
+                    {% if panier is defined and panier is not empty %}
+                    ( {{panier|length}} article{% if panier|length > 1 %}s{% endif %})
+                    {% endif %}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                     {% if panier is not defined or panier is empty %}
