@@ -57,19 +57,21 @@ class UserController extends AbstractController
      */
     public function show(User $user, Security $security, $id): Response
     {
-        if($security->getUser()->getId() != $id){
-            return $this->redirectToRoute("index.index");
-        }
         return $this->render('user/show.html.twig', [
             'user' => $user,
+            'allow_edit' => ($user == $security->getUser() || $security->isGranted('ROLE_ADMIN'))
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="user_edit", methods={"GET","POST"})
+     * @Route("/edit/{id}", name="user_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, Security $security, User $user): Response
     {
+        if($user != $security->getUser() && !$security->isGranted('ROLE_ADMIN')){
+            return $this->redirectToRoute('index.index');
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -88,8 +90,12 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="user_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, User $user): Response
+    public function delete(Request $request, Security $security, User $user): Response
     {
+        if($user != $security->getUser() && !$security->isGranted('ROLE_ADMIN')){
+            return $this->redirectToRoute('index.index');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);

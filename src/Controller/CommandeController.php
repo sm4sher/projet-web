@@ -3,49 +3,65 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
+use App\Entity\Place;
 use App\Form\CommandeType;
 use App\Repository\CommandeRepository;
+use App\Repository\EtatRepository;
+use App\Repository\PanierPlaceRepository;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("/commande")
+ * @Route("/commandes")
  */
 class CommandeController extends AbstractController
 {
     /**
      * @Route("/", name="commande_index", methods={"GET"})
      */
-    public function index(CommandeRepository $commandeRepository): Response
+    public function index(Security $security, CommandeRepository $commandeRepository): Response
     {
         return $this->render('commande/index.html.twig', [
-            'commandes' => $commandeRepository->findAll(),
+            'commandes' => $commandeRepository->findBy(['user' => $security->getUser()]),
         ]);
     }
 
     /**
-     * @Route("/new", name="commande_new", methods={"GET","POST"})
+     * @Route("/valider", name="commande_new", methods={"POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Security $security, ObjectManager $manager, PanierPlaceRepository $panierPlaceRepository, EtatRepository $etatRepository): Response
     {
-        $commande = new Commande();
-        $form = $this->createForm(CommandeType::class, $commande);
-        $form->handleRequest($request);
+        $places = $panierPlaceRepository->findBy(['user' => $security->getUser()]);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($commande);
-            $entityManager->flush();
+        if($places){
+            $etat = $etatRepository->findOneBy(['nom' => 'A préparer']);
+            if(!$etat){
+                $this->redirectToRoute("index.index");
+            }
+            $commande = new Commande();
+            $commande->setUser($security->getUser());
+            $commande->setDate(new \DateTime());
+            $commande->setEtat($etat);
+            foreach($places as $place){
+                $new_place = new Place();
+                $new_place->copyPanierPlace($place);
+                $new_place->setCommande($commande);
+                $manager->remove($place);
+                $manager->persist($new_place);
+            }
+            $manager->persist($commande);
+            $manager->flush();
 
-            return $this->redirectToRoute('commande_index');
+            $session = new Session();
+            $session->getFlashBag()->add("success", "La commande a bien été effectuée !");
         }
 
-        return $this->render('commande/new.html.twig', [
-            'commande' => $commande,
-            'form' => $form->createView(),
-        ]);
+        return $this->redirectToRoute('commande_index');
     }
 
     /**
@@ -56,39 +72,5 @@ class CommandeController extends AbstractController
         return $this->render('commande/show.html.twig', [
             'commande' => $commande,
         ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="commande_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Commande $commande): Response
-    {
-        $form = $this->createForm(CommandeType::class, $commande);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('commande_index');
-        }
-
-        return $this->render('commande/edit.html.twig', [
-            'commande' => $commande,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="commande_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Commande $commande): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$commande->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($commande);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('commande_index');
     }
 }

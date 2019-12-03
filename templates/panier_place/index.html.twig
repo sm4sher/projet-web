@@ -5,40 +5,8 @@
 {% block body %}
     <h1>Panier</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>évenement</th>
-                <th>Date Achat</th>
-                <th>Quantite</th>
-                <th>Détails</th>
-                <th>Edit</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for panier_place in panier_places %}
-            <tr>
-                <td>{{ panier_place.evenement.getNom() }}</td>
-                <td>{{ panier_place.dateAchat ? panier_place.dateAchat|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ panier_place.quantite }}</td>
-                <td>
-                    <a href="{{ path('panier_place_show', {'id': panier_place.id}) }}">
-                        <button class="btn btn-primary">détails</button>
-                    </a>
-                </td>
-                <td>
-                    <a href="{{ path('panier_place_edit', {'id': panier_place.id}) }}">
-                        <button class="btn btn-primary">modifier</button>
-                    </a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a class="button" type="btn btn-primary" href="#"><button class="btn btn-success">Ajouter</button></a>
+    {{ include("panier_place/tableau_panier.html.twig") }}
+    <form action="{{ path("commande_new") }}" method="post">
+        <input type="submit" class="btn btn-success" value="Valider la commande">
+    </form>
 {% endblock %}

@@ -20,27 +20,10 @@ class IndexController extends Controller
     {
         if($this->isGranted('ROLE_ADMIN')) {
             //return $this->redirectToRoute('admin.index');
-            return new Response($twig->render('backOff/backOFFICE.html.twig'));
+            return new Response($twig->render('admin/backOFFICE.html.twig'));
         }
         if($this->isGranted('ROLE_CLIENT')) {
             return $this->redirectToRoute("front_office");
-        }
-        return new Response($twig->render('accueil.html.twig'));
-
-    }
-
-    /**
-     * @Route("/client", name="index.client")
-     */
-    public function indexClient(Request $request, Environment $twig)
-    {
-        if($this->isGranted('ROLE_ADMIN')) {
-            //return $this->redirectToRoute('admin.index');
-            return new Response($twig->render('backOff/backOFFICE.html.twig'));
-        }
-        if($this->isGranted('ROLE_CLIENT')) {
-            // return $this->redirectToRoute('client.index');
-            return new Response($twig->render('frontOff/frontOFFICE.html.twig'));
         }
         return new Response($twig->render('accueil.html.twig'));
 

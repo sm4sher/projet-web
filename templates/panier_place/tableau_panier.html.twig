@@ -1,0 +1,35 @@
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Nom de l'évènement</th>
+        <th>nombre de place</th>
+        <th>prix</th>
+        <th>prix total</th>
+        <th>supprimer</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% set montant_total = 0 %}
+    {% for ligne in panier %}
+        {% set montant_total = montant_total + ligne.quantite * ligne.evenement.prix %}
+        <tr>
+            <td>{{ ligne.evenement.nom }}</td>
+            <td>
+                <form action="{{ path('panier.edit', {id: ligne.evenement.id}) }}" method="POST">
+                    <input type="text" name="quantite" value="{{ ligne.quantite }}" class="form-control">
+                    <input type="submit" value="Modifier" class="btn btn-primary">
+                </form>
+            </td>
+            <td>{{ ligne.evenement.prix }}</td>
+            <td>{{ ligne.quantite * ligne.evenement.prix }}</td>
+            <td>
+                <a href="{{ path('panier.delete', {id: ligne.evenement.id}) }}"><button class="btn btn-danger">Supprimer</button></a>
+            </td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <th colspan="3">Total</th>
+        <th>{{ montant_total }}</th>
+    </tr>
+    </tbody>
+</table>

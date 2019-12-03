@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Etat;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -32,8 +33,7 @@ class AppFixtures extends Fixture
         $this->loadCategories($manager);
         $this->loadUsers($manager);
         $this->loadEvenements($manager);
-
-        //        $this->loadEtatsCommandes($manager);
+        $this->loadEtatsCommandes($manager);
     }
 
     public function loadCategories(objectManager $manager)
@@ -111,16 +111,17 @@ class AppFixtures extends Fixture
             $manager->flush();
         }
     }
-    //    public function loadEtatsCommandes(objectManager $manager)
-    //    {
-    //        // état de la commande
-    //        $etat1 = new Etat();
-    //        $etat1->setNom('A préparer');
-    //        $manager->persist($etat1);
-    //        $etat2 = new Etat();
-    //        $etat2->setNom('Expédié');
-    //        $manager->persist($etat2);
-    //        $manager->flush();
-    //    }
+        public function loadEtatsCommandes(objectManager $manager)
+        {
+            echo "\n\nLoading orders states:\n";
+            $etats = ['A préparer', 'Expédié'];
 
+            foreach($etats as $etat){
+                $new_etat = new Etat();
+                $new_etat->setNom($etat);
+                echo $etat . "\n";
+                $manager->persist($new_etat);
+                $manager->flush();
+            }
+        }
 }

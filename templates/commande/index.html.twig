@@ -10,24 +10,29 @@
             <tr>
                 <th>Id</th>
                 <th>Date</th>
-                <th>actions</th>
+                <th>Etat</th>
+                <th>Montant</th>
+                <th>Voir</th>
             </tr>
         </thead>
         <tbody>
-        {% for commande in commandes %}
-            <tr>
-                <td>{{ commande.id }}</td>
-                <td>{{ commande.date ? commande.date|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('commande_show', {'id': commande.id}) }}">show</a>
-                    <a href="{{ path('commande_edit', {'id': commande.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for commande in commandes %}
+                <tr>
+                    <td>{{ commande.id }}</td>
+                    <td>{{ commande.date|date('d/m/Y') }}</td>
+                    <td>{{ commande.etat.nom }}</td>
+                    <td>{{ commande.montantTotal }}</td>
+                    <td>
+                        <a href="{{ path('commande_show', {'id': commande.id}) }}">
+                            <button class="btn btn-primary">Détails</button>
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucune commande</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 {% endblock %}
