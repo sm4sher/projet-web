@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Evenement;
 use App\Entity\PanierPlace;
 use App\Form\PanierPlaceType;
+use App\Repository\EvenementRepository;
 use App\Repository\PanierPlaceRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
@@ -29,6 +30,16 @@ class PanierController extends AbstractController
 
         return $this->render('panier_place/index.html.twig', [
             'panier' => $panier
+        ]);
+    }
+
+    /**
+     * @Route("/index", name="panier.filtre", methods={"GET", "POST"})
+     */
+    public function filtre(EvenementRepository $repo)
+    {
+        return $this->render('admin/evenement/filtre.html.twig', [
+            'evenements' => $repo->findAll(),
         ]);
     }
 

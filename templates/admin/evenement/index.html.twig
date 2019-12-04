@@ -45,8 +45,7 @@
                     <td>
                         <a href="{{ path('evenement_edit', {'id': evenement.id}) }}"><button class="btn btn-secondary">Modifier</button></a>
                     </td>
-                    {% endif %}
-                    {% if is_granted('ROLE_CLIENT') %} (role : client)
+                    {% elseif is_granted('ROLE_CLIENT') %} (role : client)
                     <td>
                         <a href="{{ path('panier.add', {'id': evenement.id}) }}"><button class="btn btn-primary">Achat</button></a>
                     </td>

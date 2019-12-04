@@ -23,8 +23,12 @@
                     Evenements
                 </a>
                 <div class="dropdown-menu" aria-labelledby="DropdownStage">
-                <a class="dropdown-item" href="{{ path('evenement_index') }}">Montrer les evenements</a>
-                <a class="dropdown-item" href="{#{ path('panier.filtre') }#}">Filtrer par catégorie de evenements</a>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if is_granted('ROLE_ADMIN') %} (role : Admin )
+                    <a class="dropdown-item" href="{{ path('evenement_index') }}">Montrer les evenements</a>
+                    {% endif %}
+                {% endif %}
+                <a class="dropdown-item" href="{{ path('panier.filtre') }}">Filtrer par catégorie de evenements</a>
                 </div>
             </li>
 
