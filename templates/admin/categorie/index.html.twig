@@ -11,7 +11,7 @@
                 <th>Id</th>
                 <th>Libelle</th>
                 <th>Détails</th>
-                <th>Edit</th>
+                <th>Modifier</th>
             </tr>
         </thead>
         <tbody>
@@ -21,12 +21,12 @@
                 <td>{{ categorie.libelle }}</td>
                 <td>
                     <a href="{{ path('categorie_show', {'id': categorie.id}) }}">
-                        <button type="button" class="btn btn-secondary">show</button>
+                        <button type="button" class="btn btn-secondary">Détails</button>
                     </a>
                 </td>
                 <td>
                     <a href="{{ path('categorie_edit', {'id': categorie.id}) }}">
-                        <button type="button" class="btn btn-secondary">edit</button>
+                        <button type="button" class="btn btn-secondary">Modifier</button>
                     </a>
                 </td>
             </tr>
@@ -38,5 +38,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('categorie_new') }}"><button type="button" class="btn btn-primary">Create new</button></a>
+    <a href="{{ path('categorie_new') }}"><button type="button" class="btn btn-primary">Nouvelle catégorie</button></a>
 {% endblock %}

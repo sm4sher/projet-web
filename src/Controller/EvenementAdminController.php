@@ -6,6 +6,7 @@ use App\Entity\Evenement;
 use App\Form\CommandeType;
 use App\Form\Evenement1Type;
 use App\Repository\EvenementRepository;
+use Doctrine\Common\Persistence\ObjectManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,16 +32,18 @@ class EvenementAdminController extends AbstractController
     /**
      * @Route("/new", name="evenement_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ObjectManager $manager): Response
     {
         $evenement = new Evenement();
         $form = $this->createForm(Evenement1Type::class, $evenement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($evenement);
-            $entityManager->flush();
+            // $entityManager = $this->getDoctrine()->getManager();
+            // $entityManager->persist($evenement);
+            // $entityManager->flush();
+            $manager->persist($evenement);
+            $manager->flush();
 
             return $this->redirectToRoute('evenement_index');
         }
