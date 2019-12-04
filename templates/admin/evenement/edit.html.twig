@@ -3,11 +3,11 @@
 {% block title %}Edit Evenement{% endblock %}
 
 {% block body %}
-    <h1>Edit Evenement</h1>
+    <h1>Modifier evenement</h1>
 
     {{ include('admin/evenement/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('evenement_index') }}"><button type="button" class="btn btn-warning">back to list</button></a>
+    <a href="{{ path('evenement_index') }}"><button type="button" class="btn btn-warning">Retour</button></a>
 
     {{ include('admin/evenement/_delete_form.html.twig') }}
 {% endblock %}

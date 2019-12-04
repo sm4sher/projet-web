@@ -18,7 +18,7 @@
                 <th>Détails</th>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     {% if is_granted('ROLE_ADMIN') %} (role : Admin )
-                        <th>Edit</th>
+                        <th>Modifier</th>
                     {% endif %}
                     {% if is_granted('ROLE_CLIENT') %} (role : client)
                         <th>Achat</th>
