@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Commande;
 use App\Entity\Place;
 use App\Form\CommandeType;
+use App\Entity\User;
 use App\Repository\CommandeRepository;
 use App\Repository\EtatRepository;
 use App\Repository\PanierPlaceRepository;
@@ -38,16 +39,16 @@ class CommandeController extends AbstractController
     {
         $places = $panierPlaceRepository->findBy(['user' => $security->getUser()]);
 
-        if($places){
+        if ($places) {
             $etat = $etatRepository->findOneBy(['nom' => 'A préparer']);
-            if(!$etat){
+            if (!$etat) {
                 $this->redirectToRoute("index.index");
             }
             $commande = new Commande();
             $commande->setUser($security->getUser());
             $commande->setDate(new \DateTime());
             $commande->setEtat($etat);
-            foreach($places as $place){
+            foreach ($places as $place) {
                 $new_place = new Place();
                 $new_place->copyPanierPlace($place);
                 $new_place->setCommande($commande);

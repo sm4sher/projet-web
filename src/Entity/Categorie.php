@@ -5,9 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CategorieRepository")
+ * @UniqueEntity(fields="libelle", message="libelle déja utilisé")
  */
 class Categorie
 {
@@ -19,7 +22,7 @@ class Categorie
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $libelle;
 
@@ -83,6 +86,6 @@ class Categorie
 
     public function __toString()
     {
-        return $this->libelle."\n";
+        return $this->libelle . "\n";
     }
 }

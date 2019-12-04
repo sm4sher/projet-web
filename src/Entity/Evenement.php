@@ -153,7 +153,7 @@ class Evenement
 
     public function __toString()
     {
-        return $this->nom." - ".$this->prix." € - ".$this->categorie;
+        return $this->nom . " - " . $this->prix . " € - " . $this->categorie;
     }
 
     public function getDate(): ?\DateTimeInterface

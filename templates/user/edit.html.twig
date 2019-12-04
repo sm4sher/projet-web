@@ -10,7 +10,7 @@
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         {% if is_granted('ROLE_ADMIN') %} (role : Admin )
         <a href="{{ path('user_index') }}">
-            <button type="button" class="btn btn-primary">Retour en arrière</button>
+            <button type="button" class="btn btn-primary">Retour</button>
         </a>
         {% endif %}
     {% endif %}

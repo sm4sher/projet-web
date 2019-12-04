@@ -68,7 +68,7 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, Security $security, User $user): Response
     {
-        if($user != $security->getUser() && !$security->isGranted('ROLE_ADMIN')){
+        if ($user != $security->getUser() && !$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('index.index');
         }
 
@@ -92,11 +92,11 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, Security $security, User $user): Response
     {
-        if($user != $security->getUser() && !$security->isGranted('ROLE_ADMIN')){
+        if ($user != $security->getUser() && !$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('index.index');
         }
 
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
