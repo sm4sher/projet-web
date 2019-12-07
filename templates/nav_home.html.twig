@@ -14,7 +14,9 @@
                     Evenements
                 </a>
                 <div class="dropdown-menu" aria-labelledby="DropdownCommandes">
-                    <a class="dropdown-item" href="{{ path('evenement_index') }}">Afficher les evenements</a>
+                    <a class="dropdown-item" href="{{ path('evenement_index') }}">
+                        Afficher les evenements
+                    </a>
                 </div>
             </li>
         </ul>
@@ -36,7 +38,7 @@
                 <a class="btn btn-success" type="button" href="{{path('login') }}">
                     Se connecter
                 </a>
-                <a class="btn btn-success" type="button" href="{# path('user_registration') #}">
+                <a class="btn btn-success" type="button" href="{{ path('user_new') }}">
                     s'inscrire
                 </a>
 
@@ -44,7 +46,6 @@
                     mot de passe oublié
                 </a>
             {% endif %}
-
         </ul>
     </div>
 </nav>

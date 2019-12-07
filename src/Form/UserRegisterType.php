@@ -6,8 +6,9 @@ use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
-class UserType extends AbstractType
+class UserRegisterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -17,7 +18,9 @@ class UserType extends AbstractType
             ->add('nom')
             ->add('ville')
             ->add('codePostal')
-            ->add('adresse');
+            ->add('adresse')
+            ->add('password', PasswordType::class)
+            ->add('confirm_password', PasswordType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

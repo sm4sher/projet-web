@@ -35,6 +35,12 @@ class User implements UserInterface, \Serializable
      */
     private $password;
 
+    /**
+     * @Assert\EqualTo(propertyPath="password",
+     * message="les deux mots de passe doivent etre les memes")
+     */
+    public $confirm_password;
+
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
@@ -50,7 +56,7 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(name="roles", type="string", length=64)
      */
-    private $roles="ROLE_USER";
+    private $roles = "ROLE_USER";
 
 
     /**
@@ -88,7 +94,7 @@ class User implements UserInterface, \Serializable
      */
     private $commandes;
 
-    // /////////////////
+    ////////////////////
 
     public function __construct()
     {
@@ -118,8 +124,7 @@ class User implements UserInterface, \Serializable
 
 
     public function eraseCredentials()
-    {
-    }
+    { }
 
     /** @see \Serializable::serialize() */
     public function serialize()
@@ -136,13 +141,13 @@ class User implements UserInterface, \Serializable
     /** @see \Serializable::unserialize() */
     public function unserialize($serialized)
     {
-        list (
+        list(
             $this->id,
             $this->username,
             $this->password,
             // see section on salt below
             // $this->salt
-            ) = unserialize($serialized);
+        ) = unserialize($serialized);
     }
 
 
@@ -153,7 +158,7 @@ class User implements UserInterface, \Serializable
         else
             return ['ROLE_USER'];
     }
-/////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
 
     public function setRoles($roles)
     {
@@ -266,7 +271,7 @@ class User implements UserInterface, \Serializable
 
     public function __toString()
     {
-        return "username : ".$this->getUsername()." role: ".$this->getRoles()[0]." mdp:".$this->getPassword()."\n";
+        return "username : " . $this->getUsername() . " role: " . $this->getRoles()[0] . " mdp:" . $this->getPassword() . "\n";
     }
 
     /**

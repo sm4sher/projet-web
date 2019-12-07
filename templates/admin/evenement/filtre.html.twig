@@ -1,0 +1,48 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+    <h1> Projet 2 web : site de vente Espace client </h1>
+    {% set categorie = '' %}
+    <form action="{{ path('panier.filtre') }}" method="POST">
+        <input type="text" name="categorie" value="" class="form-control">
+        <input type="submit" value="Modifier" class="btn btn-primary">
+    </form>
+        <div class="col-7">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>nom</th>
+                        <th>description</th>
+                        <th>places restantes</th>
+                        <th>type</th>
+                        <th>prix</th>
+                        <th>photo</th>
+                        <th>Achat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if evenements != null %}
+                    {% for event in evenements %}
+                        {% if categorie == '' or (categorie != '' and categorie == evenement.categorie) %}
+                        <tr>
+                            <td>{{ event.nom }}</td>
+                            <td>{{ event.description }}</td>
+                            <td>{{ event.nombrePlaces }}</td>
+                            <td>{% if event.categorie != null %}{{ event.categorie.libelle }}{% endif %}</td>
+                            <td>{{ event.prix }}</td>
+                            <td>{{ event.photo }}</td>
+                            <td><a href="{{ path('panier.add', {id: event.id}) }}">
+                                <button class="btn btn-primary">Ajouter au panier</button>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

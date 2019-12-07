@@ -27,7 +27,9 @@ class PanierController extends AbstractController
     public function index(Security $security, PanierPlaceRepository $panierPlaceRepository): Response
     {
         $panier = $panierPlaceRepository->findBy(['user' => $security->getUser()]);
-
+        if ($panier == null) {
+            return $this->render('panier_place/index.html.twig');
+        }
         return $this->render('panier_place/index.html.twig', [
             'panier' => $panier
         ]);
