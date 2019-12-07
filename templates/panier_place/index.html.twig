@@ -9,4 +9,8 @@
     <form action="{{ path("commande_new") }}" method="post">
         <input type="submit" class="btn btn-success" value="Valider la commande">
     </form>
+    <form action="{{ path("panier.empty") }}" method="post">
+        <input type="hidden" name="_token" value="{{ csrf_token('viderpanier') }}">
+        <input type="submit" class="btn btn-success" value="Vider le panier">
+    </form>
 {% endblock %}

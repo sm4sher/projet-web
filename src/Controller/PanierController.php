@@ -98,14 +98,36 @@ class PanierController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", name="panier.delete", methods={"GET"})
+     * @Route("/delete/{id}", name="panier.delete", methods={"POST"})
      */
     public function delete(Request $request, Security $security, ObjectManager $manager, $id): Response
     {
+        if (!$this->isCsrfTokenValid('deletepanier' . $id, $request->request->get('_token')))
+            return $this->redirectToRoute('index.index');
+
         $evenement = $this->getDoctrine()->getRepository(Evenement::class)->findOneBy(['id' => $id]);
         $panierPlace = $this->getDoctrine()->getRepository(PanierPlace::class)->findOneBy(['user' => $security->getUser(), 'evenement' => $evenement]);
         if ($panierPlace) {
             $manager->remove($panierPlace);
+            $manager->flush();
+        }
+
+        $session = new Session();
+        $session->getFlashBag()->add("display_panier", "");
+        return $this->redirectToRoute('front_office');
+    }
+
+    /**
+     * @Route("/vider", name="panier.empty", methods={"POST"})
+     */
+    public function vider(Request $request, Security $security, ObjectManager $manager, PanierPlaceRepository $panierPlaceRepository): Response
+    {
+        if (!$this->isCsrfTokenValid('viderpanier', $request->request->get('_token')))
+            return $this->redirectToRoute('index.index');
+
+        $places = $panierPlaceRepository->findBy(['user' => $security->getUser()]);
+        foreach ($places as $place) {
+            $manager->remove($place);
             $manager->flush();
         }
 

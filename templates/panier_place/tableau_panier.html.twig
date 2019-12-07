@@ -23,7 +23,10 @@
             <td>{{ ligne.evenement.prix }}</td>
             <td>{{ ligne.quantite * ligne.evenement.prix }}</td>
             <td>
-                <a href="{{ path('panier.delete', {id: ligne.evenement.id}) }}"><button class="btn btn-danger">Supprimer</button></a>
+                <form method="post" action="{{ path('panier.delete', {id: ligne.evenement.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('deletepanier' ~ ligne.evenement.id) }}">
+                    <input type="submit" class="btn btn-danger" value="Supprimer">
+                </form>
             </td>
         </tr>
     {% endfor %}

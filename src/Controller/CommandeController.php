@@ -27,8 +27,14 @@ class CommandeController extends AbstractController
      */
     public function index(Security $security, CommandeRepository $commandeRepository): Response
     {
+        if($security->isGranted("ROLE_ADMIN")){
+            $commandes = $commandeRepository->findBy([], ['etat' => 'ASC', 'date' => 'DESC']);
+        }
+        else {
+            $commandes = $commandeRepository->findBy(['user' => $security->getUser()]);
+        }
         return $this->render('commande/index.html.twig', [
-            'commandes' => $commandeRepository->findBy(['user' => $security->getUser()]),
+            'commandes' => $commandes,
         ]);
     }
 
