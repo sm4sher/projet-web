@@ -1,13 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New User{% endblock %}
+{% if is_granted('ROLE_ADMIN') %}
+    {% set titre = "Nouvel utilisateur" %}
+    {% set text_bouton = "Enregistrer" %}
+{% else %}
+    {% set titre = "Inscription" %}
+    {% set text_bouton = "S'inscrire" %}
+{% endif %}
+
+{% block title %}{{ titre }}{% endblock %}
 
 {% block body %}
-    <h1>Create new User</h1>
+    <h1>{% if is_granted('ROLE_ADMIN') %}Nouvel utilisateur{% else %}Inscription{% endif %}</h1>
 
-    {{ include('user/_form.html.twig') }}
 
-    <a href="{{ path('user_index') }}">
-        <button type="button" class="btn btn-primary">back to list</button>
-    </a>
+    {{ include('user/_form.html.twig', {'button_label': text_bouton }) }}
 {% endblock %}

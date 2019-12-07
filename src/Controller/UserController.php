@@ -6,24 +6,23 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Form\UserRegisterType;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security as SecurityAnnotation;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * @Route("/user")
- *
  */
 class UserController extends AbstractController
 {
     /**
      * @Route("/", name="user_index", methods={"GET"})
-     * @SecurityAnnotation("has_role('ROLE_ADMIN')")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(UserRepository $userRepository): Response
     {
@@ -58,22 +57,36 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_show", methods={"GET"})
+     * @Route("/profile", name="user_show_self", methods={"GET"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function show(User $user, Security $security, $id): Response
+    public function showSelf(Security $security): Response
+    {
+        return $this->render('user/show.html.twig', [
+            'user' => $security->getUser(),
+            'full_profile' => true
+        ]);
+    }
+
+    /**
+     * @Route("/profile/{id}", name="user_show", methods={"GET"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function show(Security $security, User $user): Response
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
-            'allow_edit' => ($user == $security->getUser() || $security->isGranted('ROLE_ADMIN'))
+            'full_profile' => ($user === $security->getUser() || $security->isGranted('ROLE_ADMIN'))
         ]);
     }
 
     /**
      * @Route("/edit/{id}", name="user_edit", methods={"GET","POST"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function edit(Request $request, Security $security, User $user): Response
     {
-        if ($user != $security->getUser() && !$security->isGranted('ROLE_ADMIN')) {
+        if ($user !== $security->getUser() && !$security->isGranted('ROLE_ADMIN')) {
             return $this->redirectToRoute('index.index');
         }
 
@@ -83,7 +96,9 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index');
+            if($security->isGranted('ROLE_ADMIN'))
+                return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('user_show_self');
         }
 
         return $this->render('user/edit.html.twig', [
@@ -93,20 +108,16 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_delete", methods={"DELETE"})
+     * @Route("/delete/{id}", name="user_delete", methods={"DELETE"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function delete(Request $request, Security $security, User $user): Response
     {
-        if ($user != $security->getUser() && !$security->isGranted('ROLE_ADMIN')) {
-            return $this->redirectToRoute('index.index');
-        }
-
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('user_index');
     }
 }
