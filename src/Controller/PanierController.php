@@ -50,12 +50,17 @@ class PanierController extends AbstractController
     /**
      * @Route("/add/{id}", name="panier.add", methods={"GET", "POST"})
      */
-    public function add(Request $request, Evenement $evenement, ObjectManager $manager, Security $security, $id)
+    public function add(Request $request, Evenement $evenement, ObjectManager $manager, Security $security)
     {
-        if (!$this->isCsrfTokenValid('addpanier' . $id, $request->request->get('_token')))
+        if (!$this->isCsrfTokenValid('addpanier' . $evenement->getId(), $request->request->get('_token')))
             return $this->redirectToRoute('index.index');
 
-        $evenement = $this->getDoctrine()->getRepository(Evenement::class)->findOneBy(['id' => $id]);
+        $session = new Session();
+        if($evenement->getNombrePlaces() <= 0){
+            $session->getFlashBag()->add("error", "Désolé, cet évenement n'est plus disponible");
+            return $this->redirectToRoute('front_office');
+        }
+
         $panierPlace = $this->getDoctrine()->getRepository(PanierPlace::class)->findOneBy(
             ['user' => $security->getUser(), 'evenement' => $evenement]
         );
@@ -68,10 +73,11 @@ class PanierController extends AbstractController
         } else {
             $panierPlace->setQuantite($panierPlace->getQuantite() + 1);
         }
+        $evenement->setNombrePlaces($evenement->getNombrePlaces()-1);
+        $manager->persist($evenement);
         $manager->persist($panierPlace);
         $manager->flush();
 
-        $session = new Session();
         $session->getFlashBag()->add("display_panier", "");
         return $this->redirectToRoute('front_office');
     }
@@ -79,18 +85,29 @@ class PanierController extends AbstractController
     /**
      * @Route("/edit/{id}", name="panier.edit", methods={"POST"})
      */
-    public function edit(Request $request, Security $security, ObjectManager $manager, $id): Response
+    public function edit(Request $request, Security $security, ObjectManager $manager, Evenement $evenement): Response
     {
-        if (!$this->isCsrfTokenValid('editpanier' . $id, $request->request->get('_token')))
+        if (!$this->isCsrfTokenValid('editpanier' . $evenement->getId(), $request->request->get('_token')))
             return $this->redirectToRoute('index.index');
 
-        $evenement = $this->getDoctrine()->getRepository(Evenement::class)->findOneBy(['id' => $id]);
+        $session = new Session();
+        $quantite = $request->get("quantite");
+        if($quantite > $evenement->getNombrePlaces()){
+            $quantite = $evenement->getNombrePlaces();
+            $session->getFlashBag()->add("error", "Désolé, seulement " . $quantite . " places sont disponibles pour cet évenement");
+        }
+
         $panierPlace = $this->getDoctrine()->getRepository(PanierPlace::class)->findOneBy(['user' => $security->getUser(), 'evenement' => $evenement]);
         if ($panierPlace) {
-            $panierPlace->setQuantite($request->get("quantite"));
-            $manager->persist($panierPlace);
-            $manager->flush();
+            $diffQuantite = $quantite - $panierPlace->getQuantite();
+            if($quantite == 0) {
+                $manager->remove($panierPlace);
+            } else {
+                $panierPlace->setQuantite($quantite);
+                $manager->persist($panierPlace);
+            }
         } else {
+            $diffQuantite = 1;
             $panierPlace = new PanierPlace();
             $panierPlace->setEvenement($evenement);
             $panierPlace->setUser($security->getUser());
@@ -98,8 +115,10 @@ class PanierController extends AbstractController
             $panierPlace->setDateAchat(new \DateTime());
 
             $manager->persist($panierPlace);
-            $manager->flush();
         }
+        $evenement->setNombrePlaces($evenement->getNombrePlaces() - $diffQuantite);
+        $manager->persist($evenement);
+        $manager->flush();
         $session = new Session();
         $session->getFlashBag()->add("display_panier", "");
         return $this->redirectToRoute("front_office");
@@ -108,14 +127,15 @@ class PanierController extends AbstractController
     /**
      * @Route("/delete/{id}", name="panier.delete", methods={"POST"})
      */
-    public function delete(Request $request, Security $security, ObjectManager $manager, $id): Response
+    public function delete(Request $request, Security $security, ObjectManager $manager, Evenement $evenement): Response
     {
-        if (!$this->isCsrfTokenValid('deletepanier' . $id, $request->request->get('_token')))
+        if (!$this->isCsrfTokenValid('deletepanier' . $evenement->getId(), $request->request->get('_token')))
             return $this->redirectToRoute('index.index');
 
-        $evenement = $this->getDoctrine()->getRepository(Evenement::class)->findOneBy(['id' => $id]);
         $panierPlace = $this->getDoctrine()->getRepository(PanierPlace::class)->findOneBy(['user' => $security->getUser(), 'evenement' => $evenement]);
         if ($panierPlace) {
+            $evenement->setNombrePlace($evenement->getNombrePlace() + $panierPlace->getQuantite());
+            $manager->persist($evenement);
             $manager->remove($panierPlace);
             $manager->flush();
         }
