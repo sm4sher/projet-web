@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Evenement index{% endblock %}
+{% block title %}Liste des évenements{% endblock %}
 
 {% block body %}
-    <h1>évenements</h1>
+    <h1>Evenements</h1>
     <table class="table">
         <thead>
             <tr>
@@ -12,18 +12,11 @@
                 <th>Description</th>
                 <th>Photo</th>
                 <th>Disponible</th>
-                <th>NombrePlaces</th>
+                <th>Nombre de places</th>
                 <th>Date</th>
                 <th>Prix</th>
                 <th>Détails</th>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    {% if is_granted('ROLE_ADMIN') %} (role : Admin )
-                        <th>Modifier</th>
-                    {% endif %}
-                    {% if is_granted('ROLE_CLIENT') %} (role : client)
-                        <th>Achat</th>
-                    {% endif %}
-                {% endif %}
+                <th>Modifier</th>
             </tr>
         </thead>
         <tbody>
@@ -40,28 +33,16 @@
                 <td>
                     <a href="{{ path('evenement_show', {'id': evenement.id}) }}"><button class="btn btn-secondary">Détails</button></a>
                 </td>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    {% if is_granted('ROLE_ADMIN') %} (role : Admin )
-                    <td>
-                        <a href="{{ path('evenement_edit', {'id': evenement.id}) }}"><button class="btn btn-secondary">Modifier</button></a>
-                    </td>
-                    {% elseif is_granted('ROLE_CLIENT') %} (role : client)
-                    <td>
-                        <a href="{{ path('panier.add', {'id': evenement.id}) }}"><button class="btn btn-primary">Achat</button></a>
-                    </td>
-                    {% endif %}
-                {% endif %}
+                <td>
+                    <a href="{{ path('evenement_edit', {'id': evenement.id}) }}"><button class="btn btn-secondary">Modifier</button></a>
+                </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="9">no records found</td>
+                <td colspan="9">Aucun évenement</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        {% if is_granted('ROLE_ADMIN') %} (role : Admin )
-            <a href="{{ path('evenement_new') }}"><button class="btn btn-primary">Nouvel évenement</button></a>
-        {% endif %}
-    {% endif %}
+    <a href="{{ path('evenement_new') }}"><button class="btn btn-primary">Nouvel évenement</button></a>
 {% endblock %}

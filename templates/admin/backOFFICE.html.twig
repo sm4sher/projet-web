@@ -2,6 +2,9 @@
 
 {% block body %}
 
-    <h1> Projet 2 web : site de vente espace Admin </h1>
+    <h1>Panel d'administration</h1>
+    <p><a href="{{ path("commande_index") }}">Gérer les commandes</a></p>
+    <p><a href="{{ path("evenement_index") }}">Gérer les évenements</a></p>
+    <p><a href="{{ path("user_index") }}">Gérer les clients</a></p>
 
 {% endblock %}

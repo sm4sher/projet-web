@@ -4,8 +4,6 @@
 
 {% block body %}
     <h1>Modification des utilisateurs</h1>
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        {% if is_granted('ROLE_ADMIN') %} (role : Admin )
     <table class="table">
         <thead>
             <tr>
@@ -39,11 +37,10 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="12">no records found</td>
+                <td colspan="12">Aucun utilisateur</td>
             </tr>
         {% endfor %}
         </tbody>
-            {% endif %}
-        {% endif %}
     </table>
+    <a class="btn btn-primary" href="{{ path("user_new") }}">Créer un utilisateur</a>
 {% endblock %}

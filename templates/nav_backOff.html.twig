@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="/">TP web <span style="color:#ff0000;">  Menu Admin </span></a>
+    <a class="navbar-brand" href="/">Billeterie <span style="color:#ff0000;">  Menu Admin </span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -13,7 +13,7 @@
                     Commandes
                 </a>
                 <div class="dropdown-menu" aria-labelledby="DropdownCommandes">
-                    <a class="dropdown-item" href="{{  path('commande_index') }}">Gestions des commandes</a>
+                    <a class="dropdown-item" href="{{  path('commande_index') }}">Gestion des commandes</a>
                 </div>
             </li>
 
@@ -23,7 +23,7 @@
                     Clients
                 </a>
                 <div class="dropdown-menu" aria-labelledby="DropdownStage">
-                    <a class="dropdown-item" href="{{ path('user_index') }}">Gestions des clients</a>
+                    <a class="dropdown-item" href="{{ path('user_index') }}">Gestion des clients</a>
                 </div>
             </li>
 
@@ -33,9 +33,9 @@
                     Evenements
                 </a>
                 <div class="dropdown-menu" aria-labelledby="DropdownEvenements">
-                    <a class="dropdown-item" href="{{ path('evenement_index') }}">Gestion des evenements</a>
+                    <a class="dropdown-item" href="{{ path('evenement_index') }}">Gestion des évenements</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ path('evenement_new') }}"> créer un evenement </a>
+                    <a class="dropdown-item" href="{{ path('evenement_new') }}"> Créer un évenement </a>
                 </div>
             </li>
 
@@ -47,7 +47,7 @@
                 <div class="dropdown-menu" aria-labelledby="DropdownCommandes">
                     <a class="dropdown-item" href="{{ path('categorie_index') }}">Gestion des categories</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ path('categorie_new') }}">creer une categorie</a>
+                    <a class="dropdown-item" href="{{ path('categorie_new') }}">Créer une catégorie</a>
                 </div>
             </li>
         </ul>
@@ -69,7 +69,7 @@
                     Se connecter
                 </a>
                 <a class="btn btn-outline-success" type="button" href="{#{path('changePassword') }#}">
-                    mot de passe oublié
+                    Mot de passe oublié
                 </a>
             {% endif %}
 
