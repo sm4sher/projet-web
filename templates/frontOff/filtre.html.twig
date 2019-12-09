@@ -4,8 +4,12 @@
 
     <h1> Projet 2 web : site de vente Espace client </h1>
     {% set categorie = '' %}
-    <form action="{{ path('panier.filtre') }}" method="POST">
-        <input type="text" name="categorie" value="" class="form-control">
+    <form action="{{ path('front_office_filtre') }}" method="POST">
+        <select class="form-control" name="categorie">
+            {% for categorie in categories %}
+                <option value="{{ categorie.id }}" {% if selected == categorie.id %}selected{% endif %}>{{ categorie.libelle }}</option>
+            {% endfor %}
+        </select>
         <input type="submit" value="Modifier" class="btn btn-primary">
     </form>
         <div class="col-7">
