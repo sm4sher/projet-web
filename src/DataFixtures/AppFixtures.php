@@ -114,7 +114,7 @@ class AppFixtures extends Fixture
         public function loadEtatsCommandes(objectManager $manager)
         {
             echo "\n\nLoading orders states:\n";
-            $etats = ['A préparer', 'Expédié'];
+            $etats = ['A préparer', 'Expédiée'];
 
             foreach($etats as $etat){
                 $new_etat = new Etat();

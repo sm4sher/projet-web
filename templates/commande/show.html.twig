@@ -40,7 +40,12 @@
             {{ commande.user.adresse }}<br>
             {{ commande.user.codePostal ~ ' ' ~ commande.user.ville }}
         </div>
-        <a class="btn btn-primary" href="#">Marquer comme expédiée</a>
+        {% if commande.etat.nom == "A préparer" %}
+            <form action="{{ path("commande_expedier", {"id": commande.id}) }}" method="post">
+                <input type="hidden" name="_token" value="{{ csrf_token('expediercommande' ~ commande.id) }}">
+                <input type="submit" class="btn btn-primary" value="Marquer comme expédiée">
+            </form>
+        {% endif %}
     {% endif %}
     <a class="btn btn-primary" href="{{ path('commande_index') }}">Retour à la liste des commandes</a>
 {% endblock %}

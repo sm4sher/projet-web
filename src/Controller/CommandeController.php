@@ -10,6 +10,7 @@ use App\Repository\CommandeRepository;
 use App\Repository\EtatRepository;
 use App\Repository\PanierPlaceRepository;
 use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,5 +83,21 @@ class CommandeController extends AbstractController
         return $this->render('commande/show.html.twig', [
             'commande' => $commande,
         ]);
+    }
+
+    /**
+     * @Route("/admin/expedier/{id}", name="commande_expedier", methods={"POST"})
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function expedier(Request $request, ObjectManager $manager, Commande $commande, EtatRepository $etatRepository): Response
+    {
+        if (!$commande || !$this->isCsrfTokenValid('expediercommande' . $commande->getId(), $request->request->get('_token')))
+            return $this->redirectToRoute('index.index');
+
+        $commande->setEtat($etatRepository->findOneBy(["nom" => "Expédiée"]));
+        $manager->persist($commande);
+        $manager->flush();
+
+        return $this->redirectToRoute("commande_index");
     }
 }
