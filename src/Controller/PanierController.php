@@ -155,6 +155,9 @@ class PanierController extends AbstractController
 
         $places = $panierPlaceRepository->findBy(['user' => $security->getUser()]);
         foreach ($places as $place) {
+            $evenement = $place->getEvenement();
+            $evenement->setNombrePlaces($evenement->getNombrePlaces() + $place->getQuantite());
+            $manager->persist($evenement);
             $manager->remove($place);
             $manager->flush();
         }
