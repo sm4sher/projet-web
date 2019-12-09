@@ -7,29 +7,14 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
 
-            <!--Commandes de l'utilisateur-->
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="DropdownCommandes" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Commandes
-                </a>
-                <div class="dropdown-menu" aria-labelledby="DropdownCommandes">
-                    <a class="dropdown-item" href="#">Faire une commande(Evenements/panier)</a>
-                </div>
-            </li>
-
             <!--Affichage des évenements de l'utilisateur-->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="DropdownClient" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Evenements
                 </a>
                 <div class="dropdown-menu" aria-labelledby="DropdownStage">
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    {% if is_granted('ROLE_ADMIN') %} (role : Admin )
-                    <a class="dropdown-item" href="{{ path('evenement_index') }}">Montrer les evenements</a>
-                    {% elseif is_granted('ROLE_CLIENT') %} (role : Client )
-                    <a class="dropdown-item" href="{{ path('panier.filtre') }}">Filtrer par catégorie de evenements</a>
-                    {% endif %}
-                {% endif %}
+                    <a class="dropdown-item" href="{{ path('front_office') }}">Montrer les évenements</a>
+                    <a class="dropdown-item" href="{{ path('front_office_filtre') }}">Filtrer par catégorie d'évenements</a>
                 </div>
             </li>
 
