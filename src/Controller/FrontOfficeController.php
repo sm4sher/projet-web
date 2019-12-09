@@ -29,8 +29,8 @@ class FrontOfficeController extends AbstractController
     public function filtre(Request $request, Security $security, EvenementRepository $evenementRepository, CategorieRepository $categorieRepository)
     {
         $categories = $categorieRepository->findAll();
-        if($request->request->get('categorie')) {
-            $categorie = $categorieRepository->find($request->request->get("categorie"));
+        if($request->get('categorie')) {
+            $categorie = $categorieRepository->find($request->get("categorie"));
             $events = $evenementRepository->findBy(['categorie' => $categorie]);
         }
         else {
@@ -38,7 +38,7 @@ class FrontOfficeController extends AbstractController
         }
         return $this->render('frontOff/filtre.html.twig', [
             'categories' => $categories,
-            'selected' => $request->request->get('categorie'),
+            'selected' => $request->get('categorie'),
             'evenements' => $events
         ]);
     }

@@ -4,7 +4,7 @@
 
     <h1> Projet 2 web : site de vente Espace client </h1>
     {% set categorie = '' %}
-    <form action="{{ path('front_office_filtre') }}" method="POST">
+    <form action="{{ path('front_office_filtre') }}" method="GET">
         <select class="form-control" name="categorie">
             {% for categorie in categories %}
                 <option value="{{ categorie.id }}" {% if selected == categorie.id %}selected{% endif %}>{{ categorie.libelle }}</option>
