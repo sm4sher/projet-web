@@ -1,6 +1,10 @@
 {% extends "base.html.twig" %}
 {% block body %}
 
-    <h1> Projet 2 web : site de vente Accueil </h1>
+    <h1>Billeterie</h1>
+    <p>Bienvenue sur notre site de vente de billets !</p>
+    <p>Ici, vous pourrez acheter vos places pour toute sorte d'évenements</p>
+    <p><a href="{{ path('front_office') }}">Cliquez ici</a> pour voir la liste des évenements disponibles</p>
+    <p>Pour acheter une place, veuillez <a href="{{ path('login') }}">vous connecter</a> ou <a href="{{ path("user_new") }}">vous inscrire</a> si vous n'avez pas encore de compte.</p>
 
 {% endblock %}

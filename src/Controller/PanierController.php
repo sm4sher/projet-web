@@ -9,6 +9,7 @@ use App\Repository\EvenementRepository;
 use App\Repository\PanierPlaceRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,6 +19,7 @@ use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/panier")
+ * @IsGranted("ROLE_CLIENT")
  */
 class PanierController extends AbstractController
 {
