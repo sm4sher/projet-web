@@ -36,16 +36,6 @@ class PanierController extends AbstractController
     }
 
     /**
-     * @Route("/index", name="panier.filtre", methods={"GET", "POST"})
-     */
-    public function filtre(EvenementRepository $repo)
-    {
-        return $this->render('admin/evenement/filtre.html.twig', [
-            'evenements' => $repo->findAll(),
-        ]);
-    }
-
-    /**
      * @Route("/add/{id}", name="panier.add", methods={"GET", "POST"})
      */
     public function add(Request $request, Evenement $evenement, ObjectManager $manager, Security $security)
@@ -54,7 +44,7 @@ class PanierController extends AbstractController
             return $this->redirectToRoute('index.index');
 
         $session = new Session();
-        if($evenement->getNombrePlaces() <= 0){
+        if ($evenement->getNombrePlaces() <= 0) {
             $session->getFlashBag()->add("error", "Désolé, cet évenement n'est plus disponible");
             return $this->redirectToRoute('front_office');
         }
@@ -71,7 +61,7 @@ class PanierController extends AbstractController
         } else {
             $panierPlace->setQuantite($panierPlace->getQuantite() + 1);
         }
-        $evenement->setNombrePlaces($evenement->getNombrePlaces()-1);
+        $evenement->setNombrePlaces($evenement->getNombrePlaces() - 1);
         $manager->persist($evenement);
         $manager->persist($panierPlace);
         $manager->flush();
@@ -90,7 +80,7 @@ class PanierController extends AbstractController
 
         $session = new Session();
         $quantite = $request->get("quantite");
-        if($quantite > $evenement->getNombrePlaces()){
+        if ($quantite > $evenement->getNombrePlaces()) {
             $quantite = $evenement->getNombrePlaces();
             $session->getFlashBag()->add("error", "Désolé, seulement " . $quantite . " places sont disponibles pour cet évenement");
         }
@@ -98,7 +88,7 @@ class PanierController extends AbstractController
         $panierPlace = $this->getDoctrine()->getRepository(PanierPlace::class)->findOneBy(['user' => $security->getUser(), 'evenement' => $evenement]);
         if ($panierPlace) {
             $diffQuantite = $quantite - $panierPlace->getQuantite();
-            if($quantite == 0) {
+            if ($quantite == 0) {
                 $manager->remove($panierPlace);
             } else {
                 $panierPlace->setQuantite($quantite);
