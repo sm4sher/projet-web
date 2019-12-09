@@ -70,6 +70,7 @@
                             <button class="btn btn-primary">Voir le panier</button>
                         </a>
                         <form action="{{ path("commande_new") }}" method="post">
+                            <input type="hidden" name="_token" value="{{ csrf_token('validpanier') }}">
                             <input type="submit" class="btn btn-success" value="Valider la commande">
                         </form>
                     {% endif %}

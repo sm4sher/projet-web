@@ -43,6 +43,9 @@ class CommandeController extends AbstractController
      */
     public function new(Request $request, Security $security, ObjectManager $manager, PanierPlaceRepository $panierPlaceRepository, EtatRepository $etatRepository): Response
     {
+        if (!$this->isCsrfTokenValid('validpanier', $request->request->get('_token')))
+            return $this->redirectToRoute('index.index');
+
         $places = $panierPlaceRepository->findBy(['user' => $security->getUser()]);
 
         if ($places) {

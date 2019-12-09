@@ -16,6 +16,7 @@
             <td>{{ ligne.evenement.nom }}</td>
             <td>
                 <form action="{{ path('panier.edit', {id: ligne.evenement.id}) }}" method="POST">
+                    <input type="hidden" name="_token" value="{{ csrf_token('editpanier' ~ ligne.evenement.id) }}">
                     <input type="text" name="quantite" value="{{ ligne.quantite }}" class="form-control">
                     <input type="submit" value="Modifier" class="btn btn-primary">
                 </form>

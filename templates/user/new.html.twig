@@ -11,7 +11,7 @@
 {% block title %}{{ titre }}{% endblock %}
 
 {% block body %}
-    <h1>{% if is_granted('ROLE_ADMIN') %}Nouvel utilisateur{% else %}Inscription{% endif %}</h1>
+    <h1>{{ titre }}</h1>
 
 
     {{ include('user/_form.html.twig', {'button_label': text_bouton }) }}

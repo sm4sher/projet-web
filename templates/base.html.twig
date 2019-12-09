@@ -23,6 +23,16 @@
 {% endif%}
 
 <div class="container">
+    {% for msg in app.session.flashbag.get('success') %}
+        <div class="alert alert-success">
+            {{ msg }}
+        </div>
+    {% endfor %}
+    {% for msg in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger">
+            {{ msg }}
+        </div>
+    {% endfor %}
     {% block body %}Site de vente projet S3 web IUT{% endblock %}
 </div><!-- /.container -->
 

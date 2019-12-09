@@ -50,6 +50,9 @@ class PanierController extends AbstractController
      */
     public function add(Request $request, Evenement $evenement, ObjectManager $manager, Security $security, $id)
     {
+        if (!$this->isCsrfTokenValid('addpanier' . $id, $request->request->get('_token')))
+            return $this->redirectToRoute('index.index');
+
         $evenement = $this->getDoctrine()->getRepository(Evenement::class)->findOneBy(['id' => $id]);
         $panierPlace = $this->getDoctrine()->getRepository(PanierPlace::class)->findOneBy(
             ['user' => $security->getUser(), 'evenement' => $evenement]
@@ -76,6 +79,9 @@ class PanierController extends AbstractController
      */
     public function edit(Request $request, Security $security, ObjectManager $manager, $id): Response
     {
+        if (!$this->isCsrfTokenValid('editpanier' . $id, $request->request->get('_token')))
+            return $this->redirectToRoute('index.index');
+
         $evenement = $this->getDoctrine()->getRepository(Evenement::class)->findOneBy(['id' => $id]);
         $panierPlace = $this->getDoctrine()->getRepository(PanierPlace::class)->findOneBy(['user' => $security->getUser(), 'evenement' => $evenement]);
         if ($panierPlace) {
