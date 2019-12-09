@@ -29,7 +29,7 @@ class FrontOfficeController extends AbstractController
     public function filtre(Request $request, Security $security, EvenementRepository $evenementRepository, CategorieRepository $categorieRepository)
     {
         $categories = $categorieRepository->findAll();
-        if($request->get('categorie')) {
+        if($request->get('categorie') && $request->get('categorie') != 0) {
             $categorie = $categorieRepository->find($request->get("categorie"));
             $events = $evenementRepository->findBy(['categorie' => $categorie]);
         }
