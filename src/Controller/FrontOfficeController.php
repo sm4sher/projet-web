@@ -19,8 +19,7 @@ class FrontOfficeController extends AbstractController
         $events = $evenementRepository->findAll();
         $panier = $panierPlaceRepository->findBy(['user' => $security->getUser()]);
         return $this->render('frontOff/frontOFFICE.html.twig', [
-            'events' => $events,
-            'panier' => $panier
+            'events' => $events
         ]);
     }
 }

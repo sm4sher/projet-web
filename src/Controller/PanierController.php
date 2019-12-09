@@ -32,9 +32,7 @@ class PanierController extends AbstractController
         if ($panier == null) {
             return $this->render('panier_place/index.html.twig');
         }
-        return $this->render('panier_place/index.html.twig', [
-            'panier' => $panier
-        ]);
+        return $this->render('panier_place/index.html.twig');
     }
 
     /**
@@ -134,7 +132,7 @@ class PanierController extends AbstractController
 
         $panierPlace = $this->getDoctrine()->getRepository(PanierPlace::class)->findOneBy(['user' => $security->getUser(), 'evenement' => $evenement]);
         if ($panierPlace) {
-            $evenement->setNombrePlace($evenement->getNombrePlace() + $panierPlace->getQuantite());
+            $evenement->setNombrePlaces($evenement->getNombrePlaces() + $panierPlace->getQuantite());
             $manager->persist($evenement);
             $manager->remove($panierPlace);
             $manager->flush();

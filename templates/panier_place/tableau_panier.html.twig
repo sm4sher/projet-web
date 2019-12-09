@@ -10,7 +10,7 @@
     </thead>
     <tbody>
     {% set montant_total = 0 %}
-    {% for ligne in panier %}
+    {% for ligne in app.user.panierPlaces %}
         {% set montant_total = montant_total + ligne.quantite * ligne.evenement.prix %}
         <tr>
             <td>{{ ligne.evenement.nom }}</td>
